@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.nasdanika.presentation.feature"
+      label="Nasdanika Presentation Classes"
+      version="0.1.0.qualifier"
+      provider-name="Nasdanika LLC">
+
+   <description url="http://www.example.com/description">
+      Shared classes related to Eclipse UI technologies such as SWT, JFace, and EMF editors.
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <plugin
+         id="org.nasdanika.presentation"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
