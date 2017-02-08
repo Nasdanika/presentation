@@ -1,8 +1,10 @@
 package org.nasdanika.presentation;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecp.ui.view.ECPRendererException;
 import org.eclipse.emf.ecp.ui.view.swt.ECPSWTViewRenderer;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -33,9 +35,9 @@ public class MasterDetailForm extends Composite implements ISelectionChangedList
 	 * @param site 
 	 * @param new AdapterFactoryContentProvider(adapterFactory) 
 	 */
-	public MasterDetailForm(Composite parent, int style) {
-		
+	public MasterDetailForm(Composite parent, int style, EditingDomain editingDomain) {		
 		super(parent, style);
+		this.editingDomain = editingDomain;
 		addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
 				toolkit.dispose();
@@ -71,6 +73,7 @@ public class MasterDetailForm extends Composite implements ISelectionChangedList
 	}
 	
 	private ScrolledForm formComposite;
+	private EditingDomain editingDomain;
 	
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
@@ -87,11 +90,23 @@ public class MasterDetailForm extends Composite implements ISelectionChangedList
 					&& ((StructuredSelection) event.getSelection()).getFirstElement() instanceof EObject) {
 				
 				try {
-					ECPSWTViewRenderer.INSTANCE.render(formComposite.getBody(), (EObject) ((StructuredSelection) event.getSelection()).getFirstElement());
-				} catch (ECPRendererException e) {
+					EObject eObject = (EObject) ((StructuredSelection) event.getSelection()).getFirstElement();
+					
+					for (IConfigurationElement ce: Platform.getExtensionRegistry().getConfigurationElementsFor("org.nasdanika.presentation.eobject_renderer")) {
+						// TODO renderers cache to improve performance?
+						if ("eobject_renderer".equals(ce.getName()) 
+								&& eObject.eClass().getName().equals(ce.getAttribute("eclass_name"))
+								&& eObject.eClass().getEPackage().getNsURI().equals(ce.getAttribute("epackage_ns_uri"))) {
+							((EObjectRenderer) ce.createExecutableExtension("renderer_class_name")).render(formComposite.getBody(), eObject, editingDomain);
+							return;
+						}
+					}		
+					
+					ECPSWTViewRenderer.INSTANCE.render(formComposite.getBody(), eObject);
+				} catch (Exception e) {
 					Label errorLabel = new Label(formComposite.getBody(), SWT.NONE);
 					toolkit.adapt(errorLabel, true, true);
-					errorLabel.setText("Error rendering form: "+e);
+					errorLabel.setText("Error rendering UI: "+e);
 					
 				}
 			}

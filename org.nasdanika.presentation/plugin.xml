@@ -5,32 +5,5 @@
 -->
 
 <plugin>
-
-   <extension point="org.eclipse.ui.newWizards">
-      <!-- @generated story -->
-      <category
-            id="org.nasdanika"
-            name="%_UI_Wizard_category"/>
-      <wizard
-            id="org.nasdanika.story.presentation.StoryModelWizardID"
-            name="%_UI_StoryModelWizard_label"
-            class="org.nasdanika.presentation.StoryModelWizard"
-            category="org.nasdanika"
-            icon="icons/full/obj16/StoryModelFile.gif">
-         <description>%_UI_StoryModelWizard_description</description>
-         <selection class="org.eclipse.core.resources.IResource"/>
-      </wizard>
-   </extension>
-
-   <extension point="org.eclipse.ui.editors">
-      <!-- @generated story -->
-      <editor
-            id="org.nasdanika.story.presentation.StoryEditorID"
-            name="%_UI_StoryEditor_label"
-            icon="icons/full/obj16/StoryModelFile.gif"
-            extensions="nasdanika_story"
-            class="org.nasdanika.presentation.StoryEditor"
-            contributorClass="org.nasdanika.presentation.StoryActionBarContributor">
-      </editor>
-   </extension>
+   <extension-point id="eobject_renderer" name="EObject renderers contribution" schema="schema/eobject_renderer.exsd"/>
 </plugin>
