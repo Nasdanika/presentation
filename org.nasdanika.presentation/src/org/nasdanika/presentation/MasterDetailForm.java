@@ -74,24 +74,27 @@ public class MasterDetailForm extends Composite implements ISelectionChangedList
 	
 	private ScrolledForm formComposite;
 	private EditingDomain editingDomain;
+	private EObject currentSelection;
 	
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
-		if (!event.getSelection().isEmpty()) {
-			if (formComposite != null) {
-				formComposite.dispose();
-			}
-	
-			formComposite = toolkit.createScrolledForm(elementFormComposite); 
-			formComposite.getBody().setLayout(new GridLayout());
+		if (!event.getSelection().isEmpty()
+				&& event.getSelection() instanceof StructuredSelection
+				&& ((StructuredSelection) event.getSelection()).size() == 1
+				&& ((StructuredSelection) event.getSelection()).getFirstElement() instanceof EObject) {
 			
-			if (event.getSelection() instanceof StructuredSelection
-					&& ((StructuredSelection) event.getSelection()).size() == 1
-					&& ((StructuredSelection) event.getSelection()).getFirstElement() instanceof EObject) {
+			EObject eObject = (EObject) ((StructuredSelection) event.getSelection()).getFirstElement();
+			if (currentSelection != eObject) {
+				currentSelection = eObject;
+				
+				if (formComposite != null) {
+					formComposite.dispose();
+				}
+		
+				formComposite = toolkit.createScrolledForm(elementFormComposite); 
+				formComposite.getBody().setLayout(new GridLayout());
 				
 				try {
-					EObject eObject = (EObject) ((StructuredSelection) event.getSelection()).getFirstElement();
-					
 					for (IConfigurationElement ce: Platform.getExtensionRegistry().getConfigurationElementsFor("org.nasdanika.presentation.eobject_renderer")) {
 						// TODO renderers cache to improve performance?
 						if ("eobject_renderer".equals(ce.getName()) 
@@ -101,7 +104,6 @@ public class MasterDetailForm extends Composite implements ISelectionChangedList
 							return;
 						}
 					}		
-					
 					ECPSWTViewRenderer.INSTANCE.render(formComposite.getBody(), eObject);
 				} catch (Exception e) {
 					Label errorLabel = new Label(formComposite.getBody(), SWT.NONE);
@@ -109,8 +111,16 @@ public class MasterDetailForm extends Composite implements ISelectionChangedList
 					errorLabel.setText("Error rendering UI: "+e);
 					
 				}
+				elementFormComposite.layout();
 			}
-			elementFormComposite.layout();
+		} else {
+			// Can't handle - just clear 
+			if (formComposite != null) {
+				formComposite.dispose();
+			}
+	
+			formComposite = toolkit.createScrolledForm(elementFormComposite); 
+			formComposite.getBody().setLayout(new GridLayout());			
 		}
 	}
 	
