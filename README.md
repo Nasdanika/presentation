@@ -44,7 +44,12 @@ Example - [StoryEditor.java](https://github.com/Nasdanika/story/blob/master/org.
 The default behavior is to use [EMF Forms](https://www.eclipse.org/ecp/emfforms/). EMF Forms provide rich and highly customizable UI. 
 If, for some reason, the EMF Forms rendered UI is not a good fit, 
 an implementation of ``org.nasdanika.presentation.EObjectRenderer`` can be registered with ``eobject_renderer``
-extension point to customize UI rendering.    
+extension point to customize UI rendering. 
+
+### Some issues with EMF Forms
+
+* [TransactionalEditingDomain](http://download.eclipse.org/modeling/emf/transaction/javadoc/1.1.1/org/eclipse/emf/transaction/TransactionalEditingDomain.html) is not fully supported.
+* The view model editor doesn't seem to recognize inherited structural features, at least during an attempt to create TableControl.
 
 ## API Documentation
 
