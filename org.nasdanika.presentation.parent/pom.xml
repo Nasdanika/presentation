@@ -14,20 +14,20 @@
 	</prerequisites>
 
 	<properties>
-		<tycho-version>0.26.0</tycho-version>
-		<neon-repo.url>http://download.eclipse.org/releases/neon</neon-repo.url>
+		<tycho-version>1.0.0</tycho-version>
+		<oxygen-repo.url>http://download.eclipse.org/releases/oxygen</oxygen-repo.url>
 	</properties>
 
 	<repositories>
 		<!-- configure p2 repository to resolve against -->
 		<repository>
-			<id>neon</id>
-			<url>${neon-repo.url}</url>
+			<id>oxygen</id>
+			<url>${oxygen-repo.url}</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
 			<id>orbit</id>
-				<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository</url>
+				<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170516192513/repository</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
