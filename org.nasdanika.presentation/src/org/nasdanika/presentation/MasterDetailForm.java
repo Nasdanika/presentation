@@ -1,9 +1,6 @@
 package org.nasdanika.presentation;
 
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecp.ui.view.swt.ECPSWTViewRenderer;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -95,16 +92,7 @@ public class MasterDetailForm extends Composite implements ISelectionChangedList
 				formComposite.getBody().setLayout(new GridLayout());
 				
 				try {
-					for (IConfigurationElement ce: Platform.getExtensionRegistry().getConfigurationElementsFor("org.nasdanika.presentation.eobject_renderer")) {
-						// TODO renderers cache to improve performance?
-						if ("eobject_renderer".equals(ce.getName()) 
-								&& eObject.eClass().getName().equals(ce.getAttribute("eclass_name"))
-								&& eObject.eClass().getEPackage().getNsURI().equals(ce.getAttribute("epackage_ns_uri"))) {
-							((EObjectRenderer) ce.createExecutableExtension("renderer_class_name")).render(formComposite.getBody(), eObject, editingDomain);
-							return;
-						}
-					}		
-					ECPSWTViewRenderer.INSTANCE.render(formComposite.getBody(), eObject);
+					EObjectRenderer.Util.render(formComposite.getBody(), eObject, editingDomain);
 				} catch (Exception e) {
 					Label errorLabel = new Label(formComposite.getBody(), SWT.NONE);
 					toolkit.adapt(errorLabel, true, true);
