@@ -14,31 +14,29 @@
 	</prerequisites>
 
 	<properties>
-		<tycho-version>1.0.0</tycho-version>
-		<oxygen-repo.url>http://download.eclipse.org/releases/oxygen</oxygen-repo.url>
+		<tycho-version>1.2.0</tycho-version>
 	</properties>
 
 	<repositories>
 		<!-- configure p2 repository to resolve against -->
 		<repository>
-			<id>oxygen</id>
-			<url>${oxygen-repo.url}</url>
+			<id>eclipse</id>
+			<url>http://download.eclipse.org/releases/photon</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
 			<id>orbit</id>
-				<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170516192513/repository</url>
+				<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20180606145124/repository</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
 			<id>third-party</id>
-			<url>http://www.nasdanika.org/third-party/org.nasdanika.third-party.repository/target/repository</url>
-			<!-- <url>http://www.nasdanika.org/third_party_repository</url> -->
+			<url>http://www.nasdanika.org/products/third-party/repository</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
 			<id>maven-osgi</id>
-			<url>http://www.nasdanika.org/maven-osgi</url>
+			<url>http://www.nasdanika.org/products/maven-osgi/repository</url>
 			<layout>p2</layout>
 		</repository>
 	</repositories>
@@ -99,6 +97,15 @@
 				</configuration>				
 			</plugin>
 			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-site-plugin</artifactId>
+			    <version>3.7.1</version>
+			    <configuration>
+			        <skip>true</skip>
+			        <skipDeploy>true</skipDeploy>
+			    </configuration>
+			</plugin>					
+			<plugin>
 				<groupId>org.eclipse.tycho.extras</groupId>
 				<artifactId>tycho-document-bundle-plugin</artifactId>
 				<version>${tycho-version}</version>
@@ -145,6 +152,13 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+				    <skipAssembly>true</skipAssembly>
+				</configuration>
+			</plugin>				
 		</plugins>
 	</build>
 	<modules>
