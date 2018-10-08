@@ -5,6 +5,7 @@ Classes and extension points related to the Eclipse UI presentation such as SWT,
 * P2 repository - ``https://www.nasdanika.org/products/presentation/repository``
 * [Archived P2 repository](org.nasdanika.presentation.repository-0.1.0-SNAPSHOT.zip)
 * [API documentation](apidocs)
+* [Sources](presentation.zip)
 
 ## How to contribute
 
